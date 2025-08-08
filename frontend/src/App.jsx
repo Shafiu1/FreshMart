@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import ProductList from "./components/ProductList";
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -23,6 +24,7 @@ function App() {
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/register" element={<Register setUser={setUser} />} />
         <Route path="/" element={<h1>Welcome {user ? user.name : "Guest"}</h1>} />
+        <Route path="/products" element={<ProductList />} />
       </Routes>
     </Router>
   );

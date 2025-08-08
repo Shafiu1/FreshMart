@@ -15,7 +15,7 @@ export default function Navbar({ user, setUser }) {
             <Link to="/" className="text-lg font-bold">
                 MyApp
             </Link>
-
+            <Link to="/products">Products</Link>
             {user ? (
                 <div className="flex items-center gap-4">
                     <span className="font-semibold">Hi, {user.name}</span>
