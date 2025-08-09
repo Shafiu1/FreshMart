@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import ProductList from "./components/ProductList";
+import CreateProduct from "./components/CreateProduct";
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -25,6 +26,7 @@ function App() {
         <Route path="/register" element={<Register setUser={setUser} />} />
         <Route path="/" element={<h1>Welcome {user ? user.name : "Guest"}</h1>} />
         <Route path="/products" element={<ProductList />} />
+        <Route path="/create-product" element={<CreateProduct />} />
       </Routes>
     </Router>
   );

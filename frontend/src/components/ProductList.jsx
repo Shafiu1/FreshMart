@@ -12,7 +12,7 @@ function ProductList() {
     }, []);
 
     return (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-4 bg-gray-50 min-h-screen">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-4 bg-gray-50 min-h-30">
             {products.map((product) => (
                 <div
                     key={product._id}
@@ -26,7 +26,7 @@ function ProductList() {
                                 : "/images/" + product.image // corrected relative path
                         }
                         alt={product.name}
-                        className="w-full h-36 object-cover" // smaller fixed height image
+                        className="w-full h-full object-cover" // smaller fixed height image
                     />
                     <div className="p-3 flex flex-col flex-grow">
                         <h3 className="text-md font-semibold mb-1 text-gray-900">{product.name}</h3>

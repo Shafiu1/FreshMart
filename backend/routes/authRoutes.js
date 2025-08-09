@@ -7,7 +7,7 @@ const router = express.Router();
 
 // Register
 router.post('/register', async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password,role } = req.body;
 
     // Check if user exists
     const userExists = await User.findOne({ email });
@@ -24,10 +24,11 @@ router.post('/register', async (req, res) => {
         name,
         email,
         password: hashedPassword,
+        role,//default role
     });
 
     // Create token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user._id,role:user.role}, process.env.JWT_SECRET, {
         expiresIn: '7d',
     });
 
@@ -37,6 +38,7 @@ router.post('/register', async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
+            role:user.role,
         },
     });
 });
@@ -58,7 +60,7 @@ router.post('/login', async (req, res) => {
     }
 
     // Create token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user._id,role:user.role }, process.env.JWT_SECRET, {
         expiresIn: '7d',
     });
 
@@ -69,6 +71,7 @@ router.post('/login', async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
+            role:user.role,
         },
     });
 });

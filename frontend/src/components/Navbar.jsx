@@ -16,6 +16,11 @@ export default function Navbar({ user, setUser }) {
                 MyApp
             </Link>
             <Link to="/products">Products</Link>
+            {user?.role === 'admin' && (
+                <button onClick={() => navigate('/create-product')}>
+                    Create Product
+                </button>
+            )}
             {user ? (
                 <div className="flex items-center gap-4">
                     <span className="font-semibold">Hi, {user.name}</span>

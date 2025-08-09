@@ -1,21 +1,30 @@
+// middleware/authMiddleware.js
 const jwt = require('jsonwebtoken');
-const User = require('../models/userModel.js');
 
-const protect=async (req,resizeBy,next)=>{
-    let token=req.headers.authorization;
+const protect = (req, res, next) => {
+    const authHeader = req.headers.authorization;
 
-    if(token && token.startsWith('Beared')){
-        try{
-            token=token.split(' ')[1];//remove bearer
-            const decoded= jwt.verify(token,process.env.JWT_SECRET);
-            req.user = await User.findById(decoded.id).select('-password');//attach user
-            next();
-        }catch(error){
-            res.status(401).json({message:'Invalid Token'});
-        }
-    } else {
-        res.status(401).json({message:'Not authorized, no token'});
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ message: 'No token, authorization denied' });
+    }
+
+    const token = authHeader.split(' ')[1];
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;  // contains id and role
+        next();
+    } catch (error) {
+        return res.status(401).json({ message: 'Token is not valid' });
     }
 };
 
-module.exports = protect;
+// Middleware to check admin role
+const admin = (req, res, next) => {
+    if (req.user.role !== 'admin') {
+        return res.status(403).json({ message: 'Admin access required' });
+    }
+    next();
+};
+
+module.exports = { protect, admin };

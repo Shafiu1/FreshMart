@@ -1,26 +1,24 @@
 const express= require('express');
 const Product = require('../models/productModel.js');
-
+const {protect,admin}=require('../middleware/authMiddleware.js')
 const router = express.Router();
 
 // CREATE
 // CREATE PRODUCT
-router.post('/', async (req, res) => {
+router.post('/', protect, admin, async (req, res) => {
     try {
-        const { name, price, category, image, description } = req.body;
+        const { name, price, description, category, image } = req.body;
 
-        const product = new Product({
-            name,
-            price,
-            category,
-            image,
-            description
-        });
+        if (!name || !price || !description || !category) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
 
-        const savedProduct = await product.save();
-        res.status(201).json(savedProduct);
+        const product = new Product({ name, price, description, category, image });
+        await product.save();
+
+        res.status(201).json({ message: "Product created successfully", product });
     } catch (error) {
-        res.status(500).json({ message: "Failed to create product" });
+        res.status(500).json({ message: "Server error", error: error.message });
     }
 });
 
