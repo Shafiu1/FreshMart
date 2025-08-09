@@ -19,7 +19,8 @@ app.get('/',(req,res)=>{
     res.send('API is running');
 });
 
-//router call
+
+
 app.use('/api/products',productRoutes);
 app.use('/api/auth',authRoutes);
 

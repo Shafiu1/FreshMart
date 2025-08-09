@@ -1,57 +1,48 @@
-// src/pages/ProductList.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const ProductList = () => {
+function ProductList() {
     const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
 
     useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                setLoading(true);
-                const { data } = await axios.get("http://localhost:3001/api/products");
-                setProducts(data);
-                setLoading(false);
-            } catch (error) {
-                setError("Failed to fetch products");
-                setLoading(false);
-            }
-        };
-
-        fetchProducts();
+        axios
+            .get("http://localhost:3001/api/products")
+            .then((res) => setProducts(res.data))
+            .catch((err) => console.error(err));
     }, []);
 
-    if (loading) return <p className="text-center mt-10">Loading...</p>;
-    if (error) return <p className="text-center text-red-500 mt-10">{error}</p>;
-
     return (
-        <div className="container mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-6">Product List</h1>
-            {products.length === 0 ? (
-                <p>No products found</p>
-            ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                    {products.map((product) => (
-                        <div
-                            key={product._id}
-                            className="border rounded-lg p-4 shadow hover:shadow-lg transition"
-                        >
-                            <img
-                                src={product.image}
-                                alt={product.name}
-                                className="w-full h-48 object-cover rounded"
-                            />
-                            <h2 className="text-lg font-semibold mt-2">{product.name}</h2>
-                            <p className="text-gray-600">{product.description}</p>
-                            <p className="text-green-600 font-bold mt-1">${product.price}</p>
-                        </div>
-                    ))}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-4 bg-gray-50 min-h-screen">
+            {products.map((product) => (
+                <div
+                    key={product._id}
+                    className="bg-white rounded-md shadow hover:shadow-lg transition-shadow duration-300 overflow-hidden flex flex-col"
+                    style={{ maxWidth: "220px" }} // control card width
+                >
+                    <img
+                        src={
+                            product.image?.startsWith("http")
+                                ? product.image
+                                : "/images/" + product.image // corrected relative path
+                        }
+                        alt={product.name}
+                        className="w-full h-36 object-cover" // smaller fixed height image
+                    />
+                    <div className="p-3 flex flex-col flex-grow">
+                        <h3 className="text-md font-semibold mb-1 text-gray-900">{product.name}</h3>
+                        <p className="text-xs text-gray-600 mb-1 italic">
+                            Category: {product.category || "No category"}
+                        </p>
+                        <p className="text-sm text-gray-700 flex-grow truncate">{product.description}</p>
+                        <p className="mt-3 font-bold text-blue-600 text-lg">${product.price}</p>
+                        <button className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-1 rounded transition text-sm">
+                            Add to Cart
+                        </button>
+                    </div>
                 </div>
-            )}
+            ))}
         </div>
     );
-};
+}
 
 export default ProductList;
