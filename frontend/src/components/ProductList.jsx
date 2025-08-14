@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useCart } from "../context/CartContext";
 
 function ProductList() {
     const [products, setProducts] = useState([]);
+    const { addToCart } = useCart();
     const [selectedProduct, setSelectedProduct] = useState(null);
 
     useEffect(() => {
@@ -56,7 +58,7 @@ function ProductList() {
                                 </button>
 
                                 {/* Add to Cart */}
-                                <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-1 rounded transition text-sm">
+                                <button onClick={() => addToCart(product)}  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-1 rounded transition text-sm">
                                     Add to Cart
                                 </button>
                             </div>

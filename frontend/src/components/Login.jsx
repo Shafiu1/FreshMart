@@ -15,9 +15,6 @@ export default function Login({ setUser }) {
                 body: JSON.stringify({ email, password }),
             });
             const data = await res.json();
-            console.log("res.ok:", res.ok);
-            console.log("Raw response:", res);
-            console.log("Parsed data:", data);
             if (res.ok) {
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("user", JSON.stringify(data.user));

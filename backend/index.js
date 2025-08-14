@@ -5,6 +5,7 @@ const cors = require('cors');
 //routers
 const productRoutes=require('./routes/productRoutes.js');
 const authRoutes = require('./routes/authRoutes.js')
+const cartRoutes =require('./routes/cartRoutes.js')
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.get('/',(req,res)=>{
 
 app.use('/api/products',productRoutes);
 app.use('/api/auth',authRoutes);
+app.use('/api/cart',cartRoutes);
 
 
 const PORT=process.env.PORT || 3001;

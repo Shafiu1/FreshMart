@@ -1,4 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
+import Cart from "./Cart.jsx";
+
 
 export default function Navbar({ user, setUser }) {
     const navigate = useNavigate();
@@ -24,6 +26,7 @@ export default function Navbar({ user, setUser }) {
             {user ? (
                 <div className="flex items-center gap-4">
                     <span className="font-semibold">Hi, {user.name}</span>
+                    <Link to="/cart">🛒</Link>
                     <button
                         onClick={handleLogout}
                         className="bg-red-500 px-3 py-1 rounded hover:bg-red-600"
