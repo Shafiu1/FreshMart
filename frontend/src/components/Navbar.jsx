@@ -9,7 +9,7 @@ export default function Navbar({ user, setUser }) {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         setUser(null);
-        navigate("/login");
+        navigate("/p");
     };
 
     return (
